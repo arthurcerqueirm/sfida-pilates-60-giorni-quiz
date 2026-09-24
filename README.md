@@ -1,10 +1,12 @@
 # Sfida Pilates 60 Giorni — Quiz
 
-Quiz mobile-first in italiano per il percorso digitale Sfida Pilates 60 Giorni.
+Quiz mobile-first in italiano per il percorso digitale **Sfida Pilates 60 Giorni**.
 
-## Struttura
+## Contenuto
 
-- `dist/index.html` — quiz e pagina dell’offerta
-- `dist/assets/` — immagini e identità visiva
+- Quiz personalizzato
+- Analisi di peso, altezza, obiettivi e mobilità
+- Risultato personalizzato e mini VSL
+- Offerta del programma completo di 60 giorni
 
-Per pubblicare il progetto, usa `dist` come cartella di output statico.
+Apri `index.html` oppure importa direttamente il repository in Vercel.
