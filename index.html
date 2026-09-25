@@ -122,12 +122,44 @@ const optimizedAssets={
 };
 const originalView=view;
 view=function(html){for(const [source,optimized] of Object.entries(optimizedAssets))html=html.replaceAll(source,optimized);originalView(html)}
+let youtubeApiPromise;
+function loadYouTubeApi(){
+  if(window.YT&&window.YT.Player)return Promise.resolve(window.YT);
+  if(youtubeApiPromise)return youtubeApiPromise;
+  youtubeApiPromise=new Promise(resolve=>{
+    const previousReady=window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady=function(){
+      if(typeof previousReady==='function')previousReady();
+      resolve(window.YT);
+    };
+    if(!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')){
+      const script=document.createElement('script');
+      script.src='https://www.youtube.com/iframe_api';
+      document.head.appendChild(script);
+    }
+  });
+  return youtubeApiPromise;
+}
+function scrollToOfferPrice(){
+  const price=document.querySelector('#offer .price');
+  if(price)price.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function initVslPlayer(){
+  loadYouTubeApi().then(()=>{
+    const frame=document.querySelector('#youtube-vsl');
+    if(!frame||!frame.isConnected)return;
+    new window.YT.Player(frame,{events:{onStateChange(event){
+      if(event.data===window.YT.PlayerState.ENDED)scrollToOfferPrice();
+    }}});
+  });
+}
 const originalResult=result;
 result=function(){
   originalResult();
   const video=document.querySelector('#video');
   if(video){
-    video.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/Go-1foBe7Kg?rel=0&playsinline=1" title="Presentazione della Sfida Pilates 60 Giorni" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+    video.innerHTML='<iframe id="youtube-vsl" src="https://www.youtube-nocookie.com/embed/Go-1foBe7Kg?enablejsapi=1&controls=0&fs=0&disablekb=1&iv_load_policy=3&modestbranding=1&rel=0&playsinline=1" title="Presentazione della Sfida Pilates 60 Giorni" loading="lazy" allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+    initVslPlayer();
   }
   const timeline=document.querySelector('.timeline');
   if(timeline)timeline.remove();
