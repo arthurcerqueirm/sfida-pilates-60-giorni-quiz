@@ -144,6 +144,31 @@ function trackOnce(name,params={},standard=false){
   window.dispatchEvent(new CustomEvent('sfida:funnel',{detail:{name,...payload}}));
   return true;
 }
+const quizScreenEvents={
+  0:['QuizLandingView',0,'landing'],
+  1:['QuizQ01Age',1,'age'],
+  2:['QuizQ02Weight',2,'weight'],
+  3:['QuizQ03Height',3,'height'],
+  4:['QuizQ04BodyType',4,'body_type'],
+  5:['QuizQ05PainAreas',5,'pain_areas'],
+  5.5:['QuizBridgePain',5.5,'pain_bridge'],
+  6:['QuizQ06Activity',6,'activity'],
+  7:['QuizQ07BodyPhase',7,'body_phase'],
+  8:['QuizQ08Goal',8,'goal'],
+  9:['QuizQ09TargetWeight',9,'target_weight'],
+  10:['QuizQ10Barrier',10,'barrier'],
+  12:['QuizComplete',12,'result']
+};
+function trackQuizScreen(step){
+  const screenEvent=quizScreenEvents[step];
+  if(!screenEvent)return;
+  trackOnce(screenEvent[0],{quiz_step:screenEvent[1],step_name:screenEvent[2]});
+}
+const originalRender=render;
+render=function(){
+  originalRender();
+  trackQuizScreen(state.step);
+}
 function observeVslArrival(){
   const vsl=document.querySelector('.vsl');
   if(!vsl)return;
